@@ -1,0 +1,87 @@
+$def with (regionForm, termsForm, stream)
+
+<head>
+	<title>Twitter Mining through Inclusion/Exclusion</title>
+	<style>
+		#body{
+			font: Helvetica;
+		}
+		#header{
+			background-color: #6699FF;
+			color: white;
+			text-align: center;
+			padding: 5px;
+		}
+		#container{
+			background-color: white;
+			color: black;
+			margin: auto;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		#set_region{
+			width: 45%;
+			float: left;
+		}
+		#set_terms{
+			width: 45%;
+			float: right;
+		}
+		#submit{
+			clear: both;
+			text-align: center;
+			padding: 20px;
+		}
+		#twitter_stream{
+			padding-top: 20px;
+			clear: both;
+		}
+		#tweets{
+			min-height: 100px;
+			max-height: 400px;
+			overflow-y: scroll;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>Twitter Mining through Inclusion/Exclusion</h1>
+		</div>
+		<form name="inputs" method="post" class="row"> 
+			<div id="inputs">
+				<div class="row">
+					<div class="col s12 m6" id="set_region">
+						<h3>Filter by Region: add coordinates for a Geobox</h3>
+						Enter the latitudes of the northern and southern boundaries and the longitudes of the eastern and western ones. You can get these values by drawing out a geobox at http://boundingbox.klokantech.com/.
+						$if not regionForm.valid:
+							<p class="error">invalid inputs</p>
+						$:regionForm.render()
+					</div>
+					<div class="col s12 m6" id="set_terms">
+						<h3>Filter by Content: add terms to include or exclude</h3>
+						A tweet will only be displayed if it contains a term in the "include" list and does not contain any in the "exclude" list. Each line in the text field is considered to be separate term; they include white space and punctuation, but are not case-sensitive.
+						$if not termsForm.valid:
+							<p class="error">invalid inputs</p>
+						$:termsForm.render()
+					</div>
+				</div>
+			</div>
+			<div id="twitter_stream">
+				<div class="row">
+					<h3>Twitter Stream</h3>
+					This will stream five tweets by your filters; they are presented in the form: "Date and Time :: Location :: Language :: Message" <br>
+					Warning: it may take a while for the page to load. <br>
+				</div>
+				<div class="row" id="submit">
+						<button type="submit" name="streaming" value="True">Start streaming!</button>
+				</div>
+				<div class="row">
+					<textarea readonly id="tweets" class="materialize-textarea">$stream</textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
